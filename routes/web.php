@@ -14,9 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/myfriends', function(){
-    return view('app.myfriends');
-});
-Route::get('/editmyfriends', function(){
-    return view('app.editmyfriends');
-});
+// Route::get('/myfriends', function(){
+//     return view('app.myfriends');
+// });
+// Route::get('/editmyfriends', function(){
+//     return view('app.editmyfriends');
+// });
+
+Route::get('/friends', 'FriendController@index')->name('friend.index');
