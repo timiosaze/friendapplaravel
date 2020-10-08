@@ -15,7 +15,7 @@ class FriendController extends Controller
     public function index()
     {
         //
-        $friends = Friend::all();
+        $friends = Friend::orderBy('id', 'desc')->get();
 
         return view('friends.index', ['friends' => $friends]);
     }
@@ -39,6 +39,19 @@ class FriendController extends Controller
     public function store(Request $request)
     {
         //
+        request()->validate([
+            'name' => 'required',
+            'about' => 'required'
+        ]);
+        
+        $friend = new Friend();
+        $friend->name = request('name');
+        $friend->about = request('about');
+
+        if($friend->save()){
+            return redirect('/friends');
+        }
+
     }
 
     /**
@@ -55,34 +68,52 @@ class FriendController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Friend  $friend
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Friend $friend)
+    public function edit($id)
     {
         //
+        $friend = Friend::findOrFail($id);
+
+        return view('friends.edit', ['friend' => $friend]); 
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Friend  $friend
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Friend $friend)
+    public function update(Request $request, $id)
     {
-        //
+        $friend = Friend::findOrFail($id);
+        request()->validate([
+            'name' => 'required',
+            'about' => 'required'
+        ]);
+        $friend->name = request('name');
+        $friend->about = request('about');
+
+        if($friend->save()){
+            return redirect('/friends');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Friend  $friend
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Friend $friend)
+    public function destroy($id)
     {
         //
+        $friend = Friend::findOrFail($id);
+
+        if($friend->delete()){
+            return redirect('/friends');
+        }
     }
 }

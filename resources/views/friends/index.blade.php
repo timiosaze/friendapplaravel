@@ -5,12 +5,13 @@
 		<section class="section">
 			<div class="create-form">
 				<h3>New Friend</h3>
-				<form action="">
+				<form action="{{ route('friend.store') }}" method="POST">
+					@csrf
 					<div class="form-group">
-						<input type="text" class="form-control" name="title" placeholder="Name of friend">
+						<input type="text" class="form-control" name="name" placeholder="Name of friend">
 					</div>
 					<div class="form-group">
-						<textarea name="" id="" cols="20" rows="3" class="form-control" placeholder="About Friend"></textarea>
+						<textarea name="about" id="" cols="20" rows="3" class="form-control" placeholder="About Friend"></textarea>
 					</div>
 					<button class="btn-primary btn float-right">Create</button>
 					<div class="clearfix"></div>
@@ -32,11 +33,13 @@
 						<div class="actions">
 							<div class="row">
 								<div class="col text-center">
-									<a href="#" class="edit">Edit</a>
+										<a href="{{ route('friend.edit', $friend->id) }}" class="edit">Edit</a>
 								</div>
 								<div class="col text-center">
-									<form action="">
-										<a href="#" class="delete">Delete</a>
+									<form action="{{ route('friend.destroy', $friend->id) }}" id="form{{$friend->id}}" method="POST">
+										@csrf
+										@method('DELETE')
+										<a href="javascript:$('#form{{$friend->id}}').submit();" class="delete">Delete</a>
 									</form>
 								</div>
 							</div>

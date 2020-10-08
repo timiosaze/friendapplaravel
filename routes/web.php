@@ -22,3 +22,7 @@ Route::get('/', function () {
 // });
 
 Route::get('/friends', 'FriendController@index')->name('friend.index');
+Route::post('/friends', 'FriendController@store')->name('friend.store');
+Route::get('/friends/{id}/edit', 'FriendController@edit')->name('friend.edit');
+Route::put('/friends/{id}', 'FriendController@update')->name('friend.update');
+Route::delete('/friends/{id}', 'FriendController@destroy')->name('friend.destroy');
