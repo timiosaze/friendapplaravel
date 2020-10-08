@@ -15,7 +15,7 @@ class FriendController extends Controller
     public function index()
     {
         //
-        $friends = Friend::orderBy('id', 'desc')->get();
+        $friends = Friend::orderBy('id', 'desc')->paginate(5);
 
         return view('friends.index', ['friends' => $friends]);
     }
@@ -39,10 +39,7 @@ class FriendController extends Controller
     public function store(Request $request)
     {
         //
-        request()->validate([
-            'name' => 'required',
-            'about' => 'required'
-        ]);
+        $this->FriendValidation();
         
         $friend = new Friend();
         $friend->name = request('name');
@@ -89,10 +86,7 @@ class FriendController extends Controller
     public function update(Request $request, $id)
     {
         $friend = Friend::findOrFail($id);
-        request()->validate([
-            'name' => 'required',
-            'about' => 'required'
-        ]);
+        $this->FriendValidation();
         $friend->name = request('name');
         $friend->about = request('about');
 
@@ -115,5 +109,11 @@ class FriendController extends Controller
         if($friend->delete()){
             return redirect('/friends');
         }
+    }
+    public function FriendValidation(){
+        return request()->validate([
+            'name' => 'required',
+            'about' => 'required'
+        ]);
     }
 }

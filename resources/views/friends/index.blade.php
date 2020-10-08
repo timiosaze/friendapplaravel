@@ -98,10 +98,7 @@
 			</div>
 		</section>
 		<section class="section">
-			<div class="paginate">
-				<a href="#" class="btn btn-outline-primary">Prev</a>
-				<a href="#" class="btn btn-outline-primary">Next</a>
-			</div>
+			{{$friends->links()}}
 		</section>
 
 	@endsection
