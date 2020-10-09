@@ -36,16 +36,35 @@
 										<a href="{{ route('friend.edit', $friend->id) }}" class="edit">Edit</a>
 								</div>
 								<div class="col text-center">
-									<form action="{{ route('friend.destroy', $friend->id) }}" id="form{{$friend->id}}" method="POST">
-										@csrf
-										@method('DELETE')
-										<a href="javascript:$('#form{{$friend->id}}').submit();" class="delete">Delete</a>
-									</form>
+										<a href="#" data-toggle="modal" data-target="#staticBackdrop{{$friend->id}}" class="delete">Delete</a>
 								</div>
 							</div>
 						</div>
 					</li>
-
+					<!-- Modal -->
+					<div class="modal fade " id="staticBackdrop{{$friend->id}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="staticBackdropLabel">Delete Friend</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div>
+							<div class="modal-body">
+							{{ Str::limit($friend->about, 15) }}
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+								<form action="{{ route('friend.destroy', $friend->id) }}" method="POST">
+									@csrf
+									@method('DELETE')
+									<button type="submit" class="btn btn-primary">Yes</button>
+								</form>
+							</div>
+						</div>
+						</div>
+					</div>
 					@empty
 
 					<li class="no-data text-center">

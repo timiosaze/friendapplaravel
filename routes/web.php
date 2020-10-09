@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('friends.index');
+})->middleware('auth');
 // Route::get('/myfriends', function(){
 //     return view('app.myfriends');
 // });
@@ -26,3 +26,6 @@ Route::post('/friends', 'FriendController@store')->name('friend.store');
 Route::get('/friends/{id}/edit', 'FriendController@edit')->name('friend.edit');
 Route::put('/friends/{id}', 'FriendController@update')->name('friend.update');
 Route::delete('/friends/{id}', 'FriendController@destroy')->name('friend.destroy');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

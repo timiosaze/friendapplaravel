@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Friend;
+use Auth;
 use Illuminate\Http\Request;
 
 class FriendController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,7 @@ class FriendController extends Controller
     public function index()
     {
         //
-        $friends = Friend::orderBy('id', 'desc')->paginate(5);
+        $friends = Friend::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(5);
 
         return view('friends.index', ['friends' => $friends]);
     }
@@ -44,6 +49,7 @@ class FriendController extends Controller
         $friend = new Friend();
         $friend->name = request('name');
         $friend->about = request('about');
+        $friend->user_id = Auth::id();
 
         if($friend->save()){
             return redirect('/friends');
@@ -71,7 +77,7 @@ class FriendController extends Controller
     public function edit($id)
     {
         //
-        $friend = Friend::findOrFail($id);
+        $friend = Friend::where('user_id', Auth::id())->findOrFail($id);
 
         return view('friends.edit', ['friend' => $friend]); 
     }
@@ -85,7 +91,7 @@ class FriendController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $friend = Friend::findOrFail($id);
+        $friend = Friend::where('user_id', Auth::id())->findOrFail($id);
         $this->FriendValidation();
         $friend->name = request('name');
         $friend->about = request('about');
@@ -104,7 +110,7 @@ class FriendController extends Controller
     public function destroy($id)
     {
         //
-        $friend = Friend::findOrFail($id);
+        $friend = Friend::where('user_id',Auth::id())->findOrFail($id);
 
         if($friend->delete()){
             return redirect('/friends');
