@@ -4,6 +4,7 @@
 		<section class="section">
 			<div class="create-form">
 				<h3>Edit Friend</h3>
+				@include('includes.validation')
 				<form action="{{route('friend.update', $friend->id)}}'" method="POST">
 					@csrf
 					@method('PUT')

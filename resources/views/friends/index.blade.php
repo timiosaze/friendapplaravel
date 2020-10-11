@@ -5,6 +5,8 @@
 		<section class="section">
 			<div class="create-form">
 				<h3>New Friend</h3>
+				@include('includes.validation')
+				@include('includes.alerts')
 				<form action="{{ route('friend.store') }}" method="POST">
 					@csrf
 					<div class="form-group">

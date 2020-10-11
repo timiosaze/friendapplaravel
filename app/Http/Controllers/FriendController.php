@@ -21,7 +21,7 @@ class FriendController extends Controller
     {
         //
         $friends = Friend::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(5);
-
+        
         return view('friends.index', ['friends' => $friends]);
     }
 
@@ -52,7 +52,9 @@ class FriendController extends Controller
         $friend->user_id = Auth::id();
 
         if($friend->save()){
-            return redirect('/friends');
+            return redirect('/friends')->with('success', 'Successfully created');
+        } else {
+            return redirect('/friends')->with('failure', 'Not created');
         }
 
     }
@@ -97,7 +99,9 @@ class FriendController extends Controller
         $friend->about = request('about');
 
         if($friend->save()){
-            return redirect('/friends');
+            return redirect('/friends')->with('success', 'Successfully updated');
+        } else {
+            return redirect('/friends')->with('failure', 'Not updated');
         }
     }
 
@@ -113,9 +117,12 @@ class FriendController extends Controller
         $friend = Friend::where('user_id',Auth::id())->findOrFail($id);
 
         if($friend->delete()){
-            return redirect('/friends');
+            return redirect('/friends')->with('success', 'Successfully deleted');
+        } else {
+            return redirect('/friends')->with('failure', 'Not deleted');
         }
     }
+
     public function FriendValidation(){
         return request()->validate([
             'name' => 'required',
