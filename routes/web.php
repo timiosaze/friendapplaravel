@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('friends.index');
-})->middleware('auth');
+    return view('auth.login');
+});
 // Route::get('/myfriends', function(){
 //     return view('app.myfriends');
 // });
